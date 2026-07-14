@@ -7,10 +7,17 @@ async function main() {
 
   const { center, zoom } = mapInitOptions(site);
   const map = L.map('map').setView(center, zoom);
-  L.tileLayer(satelliteTileUrl(), {
+  const tileLayer = L.tileLayer(satelliteTileUrl(), {
     attribution: 'Tiles &copy; Esri',
     maxZoom: 19,
-  }).addTo(map);
+  });
+  let tileErrorShown = false;
+  tileLayer.on('tileerror', () => {
+    if (tileErrorShown) return;
+    tileErrorShown = true;
+    document.getElementById('map').textContent = '지도를 불러올 수 없습니다';
+  });
+  tileLayer.addTo(map);
   L.marker(center).addTo(map);
 
   document.getElementById('address').textContent = site.address;
