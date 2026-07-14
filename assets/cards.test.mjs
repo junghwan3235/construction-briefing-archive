@@ -41,3 +41,17 @@ test('cardHtml renders address, summary, badge label, and a link to the site pag
   assert.match(html, /굴착 단계/);
   assert.match(html, /대규모/);
 });
+
+test('cardHtml escapes HTML-significant characters in address and summary', () => {
+  const site = {
+    slug: '2026-07-14-sample01',
+    address: 'A&B <신축> "현장"',
+    summary: '<script>alert(1)</script>',
+    scale_tag: 'large',
+    discovered_at: '2026-07-14',
+  };
+  const html = cardHtml(site);
+  assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /A&amp;B &lt;신축&gt; &quot;현장&quot;/);
+  assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+});

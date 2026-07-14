@@ -11,9 +11,13 @@ async function main() {
     attribution: 'Tiles &copy; Esri',
     maxZoom: 19,
   });
+  let tilesLoaded = false;
   let tileErrorShown = false;
+  tileLayer.on('load', () => {
+    tilesLoaded = true;
+  });
   tileLayer.on('tileerror', () => {
-    if (tileErrorShown) return;
+    if (tileErrorShown || tilesLoaded) return;
     tileErrorShown = true;
     document.getElementById('map').textContent = '지도를 불러올 수 없습니다';
   });

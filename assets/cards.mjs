@@ -13,12 +13,21 @@ export function scaleTagLabel(tag) {
   throw new Error(`Unknown scale_tag: ${tag}`);
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
 export function cardHtml(site) {
   const label = scaleTagLabel(site.scale_tag);
-  return `<a class="card" href="sites/${site.slug}.html">
+  return `<a class="card" href="sites/${escapeHtml(site.slug)}.html">
   <span class="badge badge-${site.scale_tag}">${label}</span>
-  <h3>${site.address}</h3>
-  <p>${site.summary}</p>
-  <time>${site.discovered_at}</time>
+  <h3>${escapeHtml(site.address)}</h3>
+  <p>${escapeHtml(site.summary)}</p>
+  <time>${escapeHtml(site.discovered_at)}</time>
 </a>`;
 }
