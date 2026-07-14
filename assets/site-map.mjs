@@ -1,5 +1,5 @@
-export function vworldTileUrl(apiKey) {
-  return `https://api.vworld.kr/req/wmts/1.0.0/${apiKey}/Satellite/{z}/{y}/{x}.jpeg`;
+export function satelliteTileUrl() {
+  return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 }
 
 export function mapInitOptions(site) {
